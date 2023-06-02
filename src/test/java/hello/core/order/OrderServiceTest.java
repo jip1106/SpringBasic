@@ -30,4 +30,6 @@ public class OrderServiceTest {
         Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
 
     }
+
+
 }
