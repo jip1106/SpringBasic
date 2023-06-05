@@ -13,13 +13,14 @@ import org.springframework.context.annotation.FilterType;
 
 @Configuration  //설정정보 -> 싱글톤을 보장해줌
 @ComponentScan(
-        basePackages = "hello.core.member",
-        basePackageClasses = AutoAppConfig.class,
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes =
+                Configuration.class)
+
 )  //@Component 가 붙은 클래스를 스캔해서 자동으로 스프링 빈으로 등록됌
 public class AutoAppConfig {
 
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
     @Autowired
     DiscountPolicy discountPolicy;
 
@@ -28,8 +29,10 @@ public class AutoAppConfig {
         return new OrderServiceImpl(memberRepository,discountPolicy);
     }
 
+
     @Bean(name = "memoryMemberRepository")
     MemberRepository memberRepository(){
         return new MemoryMemberRepository();
     }
+
 }

@@ -1,12 +1,15 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+
+//@RequiredArgsConstructor
+//@Component
 public class OrderServiceImpl implements OrderService{
     //private final MemberRepository memberRepository = new MemoryMemberRepository();
 
@@ -40,10 +43,8 @@ public class OrderServiceImpl implements OrderService{
     */
 
 
-     private /*final*/ MemberRepository memberRepository;
-     private /*final*/ DiscountPolicy discountPolicy;
-
-
+     private final MemberRepository memberRepository;
+     private final DiscountPolicy discountPolicy;
 
 /*
     @Autowired(required = false) //@Autowired 의 기본 동작은 주입할 대상이 없으면 오류가 발생. 주입할 대상이 없어도 동작하게  하려면 @Autowired(required = false) 로 지정하면 된다
@@ -66,12 +67,16 @@ public class OrderServiceImpl implements OrderService{
     // 생성자 호출 시점에 딱 1번만 호출되는 것이 보장됌,
     // 불변, 필수 의존관계에 사용
     // 생성자가 1개만 있으면 @Autowired를 생략해도 자동 주입 가능
+    //@Autowired
+
+    // @RequiredArgsConstructor 롬복을 사용해서 이 애노테이션을 사용하면 final이 붙은 필드로 생성자를 자동으로 만들어준다
+
     @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy){
-        System.out.println("1. OrderServiceImpl.OrderServiceImpl");
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy){
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
+
 
 
     //일반 메서드 주입
@@ -80,12 +85,15 @@ public class OrderServiceImpl implements OrderService{
         한번에 여러 필드를 주입 받을 수 있다.
         일반적으로 잘 사용하지 않는다.
      */
-    
+
+    /*
     @Autowired
     public void init(MemberRepository memberRepository, DiscountPolicy discountPolicy){
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
+    */
+
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
         Member member = memberRepository.findById(memberId);
