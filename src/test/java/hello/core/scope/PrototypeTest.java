@@ -22,12 +22,17 @@ public class PrototypeTest {
         System.out.println("prototypeBean1 = " + prototypeBean1);
         System.out.println("prototypeBean2 = " + prototypeBean2);
 
+        //서로 다른 참조값이 나옴
         Assertions.assertThat(prototypeBean1).isNotSameAs(prototypeBean2);
 
+        //프로토타입 빈은 프로토타입 빈을 조회한 클라이언트가 관리 해야 한다. 직접 호출 필요
         prototypeBean1.destroy();
         prototypeBean2.destroy();
+
+        //close()로 호출해도 PreDestroy 호출 X
         ac.close();
     }
+
     @Scope("prototype")
     static class PrototypeBean{
 

@@ -30,8 +30,8 @@ public class SingletonTest {
             System.out.println("SingletonBean.init");
         }
         @PreDestroy
-        public void destory(){
-            System.out.println("SingletonBean.destory");
+        public void destroy(){
+            System.out.println("SingletonBean.destroy");
         }
     }
 }
